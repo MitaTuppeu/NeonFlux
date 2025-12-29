@@ -1,0 +1,10 @@
+-xc++
+-std=c++17
+-O3
+-Wall
+-Iinclude
+-I/Library/Frameworks/Python.framework/Versions/3.12/include/python3.12
+-I/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/pybind11/include
+-I/opt/homebrew/opt/libomp/include
+-Xpreprocessor
+-fopenmp
